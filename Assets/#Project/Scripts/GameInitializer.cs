@@ -30,8 +30,8 @@ public class GameInitializer : MonoBehaviour
         {
             Debug.LogError("There aren't enough different colors for the number of cards you've got.");
         }
-        ObjectsCreation();
-        ObjectInitialization();
+        ObjectsCreation(); // Crée tous les objets sans qu'ils aient encore de lien entre eux. 
+        ObjectInitialization(); // Initialise le CardsManager, qui va s'occuper de la distribution des couleurs. 
     }
     private void ObjectsCreation()
     {
