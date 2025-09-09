@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -102,10 +103,9 @@ public class CardsManager : MonoBehaviour
                 if (foundPairs == deck.Count / 2)
                 {
                     // Debug.Log("VictoryScene");
-                    SceneManager.LoadScene("VictoryScene");
-
+                    // SceneManager.LoadScene("VictoryScene");
+                    StartCoroutine(VictorySceneLauncher());
                 }
-                // EXO : Compter le nombre de combinaisons trouvées.
             }
             memoCard = null;
         }
@@ -114,5 +114,11 @@ public class CardsManager : MonoBehaviour
             memoCard = card;
         }
 
+    }
+
+    private IEnumerator VictorySceneLauncher(float delay = 2f)
+    {
+        yield return new WaitForSeconds(delay);
+        SceneManager.LoadScene("VictoryScene");
     }
 }
