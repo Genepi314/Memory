@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class CardsManager : MonoBehaviour
 {
@@ -12,6 +13,16 @@ public class CardsManager : MonoBehaviour
     {
         this.colors = colors;
         this.deck = deck;
+
+        int colorIndex;
+        int cardIndex;
+
+        List<int> colorsAlreadyInGame = new();
+        List<CardBehaviour> cards = new(deck); // Ceci crée un clône de deck. Petit désavantage, ça consomme plus d'espace. Comme c'est en initialisation, ça passe. Contrairement à ma méthode. Le défaut de la mienne, ci-dessus, est l'utilisation du random, qui va demander probablement beaucoup d'itérations pour obtenir un tirage différent à chaque fois via le random.
+
+        memoCard = null;
+
+        foundPairs = 0;
 
         // // Ma proposition:
 
@@ -51,14 +62,6 @@ public class CardsManager : MonoBehaviour
         //     }
         // }
 
-        int colorIndex;
-        int cardIndex;
-
-        List<int> colorsAlreadyInGame = new();
-        List<CardBehaviour> cards = new(deck); // Ceci crée un clône de deck. Petit désavantage, ça consomme plus d'espace. Comme c'est en initialisation, ça passe. Contrairement à ma méthode. Le défaut de la mienne, ci-dessus, est l'utilisation du random, qui va demander probablement beaucoup d'itérations pour obtenir un tirage différent à chaque fois via le random.
-
-        memoCard = null;
-
         for (int _ = 0; _ < deck.Count / 2; _++) // Le _ signifie qu'on ne se sert de la variable compteur que pour compter, on ne la modifiera pas.
         {
             colorIndex = Random.Range(0, colors.Length);
@@ -79,6 +82,7 @@ public class CardsManager : MonoBehaviour
         }
     }
 
+    private int foundPairs = 0;
     public void CardIsClicked(CardBehaviour card)
     {
         if (card.IsFaceUp) return;
@@ -91,6 +95,17 @@ public class CardsManager : MonoBehaviour
                 // Debug.Log("Sorry, elles sont différentes.");
                 memoCard.FaceDown(delayBeforeFaceDown); // delayBeforeFaceDown a été SerializeFieldé pour pouvoir être accesible dans l'inspecteur.
                 card.FaceDown(delayBeforeFaceDown);
+            }
+            else
+            {
+                foundPairs++;
+                if (foundPairs == deck.Count / 2)
+                {
+                    // Debug.Log("VictoryScene");
+                    SceneManager.LoadScene("VictoryScene");
+
+                }
+                // EXO : Compter le nombre de combinaisons trouvées.
             }
             memoCard = null;
         }

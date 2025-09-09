@@ -5,8 +5,8 @@ using UnityEngine;
 public class GameInitializer : MonoBehaviour
 {
     const float CARD_SIZE = 1.0f; // Ou 1-1-1 en Vector3 en réalité
-    [SerializeField] private int rows = 2;
-    [SerializeField] private int columns = 3;
+    [SerializeField] private int rows = 3;
+    [SerializeField] private int columns = 2;
     [SerializeField] private float gap = 0.5f;
     [SerializeField] private CardBehaviour cardPrefab; // Et plus de type GameObject ! Ca évite d'avoir recours au GetComponent par la suite. Et aussi, on s'assure que notre cardPrefab a bien un script CardBehaviour. 
     [SerializeField] private Color[] colors;
