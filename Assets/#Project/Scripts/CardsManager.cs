@@ -7,13 +7,15 @@ using UnityEngine.SceneManagement;
 public class CardsManager : MonoBehaviour
 {
     [SerializeField] private float delayBeforeFaceDown = 1f;
+    private VictoryManager victoryManager;
     private List<CardBehaviour> deck;
     private Color[] colors;
     private CardBehaviour memoCard = null; // On précise que c'est null pour être explicite.
-    public void Initialize(List<CardBehaviour> deck, Color[] colors) // /!\ deck n'est en fait pas celui de GameInitializer, mais ça aide à la compréhension il parait.
+    public void Initialize(List<CardBehaviour> deck, Color[] colors, VictoryManager victoryManager) // /!\ deck n'est en fait pas celui de GameInitializer, mais ça aide à la compréhension il parait.
     {
         this.colors = colors;
         this.deck = deck;
+        this.victoryManager = victoryManager;
 
         int colorIndex;
         int cardIndex;
@@ -103,8 +105,7 @@ public class CardsManager : MonoBehaviour
                 if (foundPairs == deck.Count / 2)
                 {
                     // Debug.Log("VictoryScene");
-                    // SceneManager.LoadScene("VictoryScene");
-                    StartCoroutine(VictorySceneLauncher());
+                    victoryManager.LaunchVictory();
                 }
             }
             memoCard = null;
@@ -113,12 +114,5 @@ public class CardsManager : MonoBehaviour
         {
             memoCard = card;
         }
-
-    }
-
-    private IEnumerator VictorySceneLauncher(float delay = 2f)
-    {
-        yield return new WaitForSeconds(delay);
-        SceneManager.LoadScene("VictoryScene");
     }
 }

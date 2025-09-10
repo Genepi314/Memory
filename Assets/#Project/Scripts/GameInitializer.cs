@@ -5,6 +5,7 @@ using UnityEngine;
 public class GameInitializer : MonoBehaviour
 {
     const float CARD_SIZE = 1.0f; // Ou 1-1-1 en Vector3 en réalité
+    [SerializeField] private VictoryManager victoryManager;
     [SerializeField] private int rows = 3;
     [SerializeField] private int columns = 2;
     [SerializeField] private float gap = 0.5f;
@@ -56,11 +57,12 @@ public class GameInitializer : MonoBehaviour
         // }
 
         cardsManager = Instantiate(cardsManager); // Instatiate crée un clone de cardManager. On dit donc que cardsManager devient son propre clone DANS LA SCENE. Tout ça permet d'avoir une variable, qui contient d'abord le préfab, et qui après cette ligne, contient le clone instancié dans la scène. 
+        victoryManager = Instantiate(victoryManager);
     }
 
     private void ObjectInitialization()
     {
-        cardsManager.Initialize(deck, colors);
+        cardsManager.Initialize(deck, colors, victoryManager);
     }
 }
 
